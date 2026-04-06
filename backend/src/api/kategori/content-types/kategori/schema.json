@@ -1,0 +1,29 @@
+{
+  "kind": "collectionType",
+  "collectionName": "kategoris",
+  "info": {
+    "singularName": "kategori",
+    "pluralName": "kategoris",
+    "displayName": "kategori"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "nama": {
+      "type": "enumeration",
+      "enum": [
+        "Siswa",
+        "Guru",
+        "Fasilitas"
+      ]
+    },
+    "aspirasis": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::aspirasi.aspirasi",
+      "mappedBy": "kategoris"
+    }
+  }
+}

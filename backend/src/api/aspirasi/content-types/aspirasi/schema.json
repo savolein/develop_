@@ -1,0 +1,47 @@
+{
+  "kind": "collectionType",
+  "collectionName": "aspirasis",
+  "info": {
+    "singularName": "aspirasi",
+    "pluralName": "aspirasis",
+    "displayName": "aspirasi"
+  },
+  "options": {
+    "draftAndPublish": true
+  },
+  "pluginOptions": {},
+  "attributes": {
+    "judul": {
+      "type": "string"
+    },
+    "isi": {
+      "type": "text"
+    },
+    "tanggal": {
+      "type": "date"
+    },
+    "statuss": {
+      "type": "enumeration",
+      "enum": [
+        "Terkirim",
+        "Diproses",
+        "Selesai"
+      ]
+    },
+    "siswa": {
+      "type": "relation",
+      "relation": "manyToOne",
+      "target": "api::siswa.siswa",
+      "inversedBy": "aspirasis"
+    },
+    "kategoris": {
+      "type": "relation",
+      "relation": "manyToMany",
+      "target": "api::kategori.kategori",
+      "inversedBy": "aspirasis"
+    },
+    "reply": {
+      "type": "text"
+    }
+  }
+}
