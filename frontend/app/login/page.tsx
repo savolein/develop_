@@ -30,7 +30,7 @@ export default function LoginPage(){
     }
 
     return(
-        <div className="flex flex-col w-full max-w-[450px] mx-auto mt-[200px] bg-[#8C00FF] gap-[14px] rounded-[10px] py-[16px] px-[28px]">
+        <div className="flex flex-col w-full max-w-[450px] h-[415px] mx-auto my-[200px] px-[40px] py-[66px] bg-gradient-to-br from-yellow-300 to-blue-600 gap-[14px] rounded-[10px]">
             <h1 className="text-[24px] text-center font-bold text-white">
                 Login
             </h1>
@@ -51,7 +51,7 @@ export default function LoginPage(){
             </div>
             <div className="flex flex-col mx-auto gap-[4px]">
                 <button 
-                    className="w-[250px] bg-[#FF3F7F] font-semibold px-[8px] py-[6px] rounded cursor-pointer text-white hover:bg-[#FF3F7F]/60 transition" 
+                    className="w-[250px] bg-red-500 font-semibold px-[8px] py-[6px] rounded cursor-pointer text-white hover:bg-[#FF3F7F]/60 transition" 
                     onClick={handleLogin}
                 >
                     Submit

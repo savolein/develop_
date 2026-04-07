@@ -7,29 +7,28 @@ import Image from "next/image"
 export default function DashboardSiswa(){
     return(
         <>
-        <NavbarSiswa />
-        <div className="bg-gradient-to-r from-blue-600 to-blue-500 text-white py-24">
-            <div className="max-w-6xl mx-auto px-6 flex flex-col-reverse md:flex-row items-center gap-12">
+        <div className="text-white py-24 h-[600px]">
+            <div className="max-w-6xl mx-auto my-8 px-6 flex flex-col-reverse md:flex-row items-center gap-12">
                 <div className="flex-1 text-center md:text-left">
-                    <h1 className="text-4xl md:text-5xl font-bold leading-tight mb-4">
+                    <h1 className="text-black text-4xl md:text-5xl font-bold leading-tight mb-4">
                         Selamat Datang di <br />
-                        <span className="text-yellow-300">Harap Lapor!</span>
+                        <span className="text-yellow-500">Harap Lapor!</span>
                     </h1>
-                    <p className="text-lg text-blue-100">
+                    <p className="text-[24px] font-semibold text-blue-500">
                         Sistem pengaduan resmi SMKS Wira Harapan
                     </p>
                 </div>
                 <Image
                     src="/image/logo.webp"
                     alt="Logo Sekolah"
-                    width={260}
-                    height={260}
+                    width={360}
+                    height={360}
                     priority
                     className="drop-shadow-xl rounded-[20px]"
                 />
             </div>
         </div>
-        <div className="py-20 bg-[#134686]">
+        <div className="py-20 bg-gradient-to-br from-blue-600 to-yellow-300">
             <div className="max-w-6xl mx-auto px-6 grid md:grid-cols-2 gap-24 items-center">
                 <div className="bg-white p-8 rounded-2xl shadow-lg">
                     <h2 className="text-3xl font-bold mb-4 text-blue-600">
@@ -50,7 +49,29 @@ export default function DashboardSiswa(){
                 />
             </div>
         </div>
-        <div className="py-24">
+        <div className="py-24 bg-gray-50">
+            <div className="max-w-6xl mx-auto px-6">
+                <h2 className="text-3xl font-bold text-center text-blue-600 mb-12">
+                    Cara Kerja
+                </h2>
+                <div className="grid md:grid-cols-3 gap-8">
+                    {[
+                        { step: "1", title: "Buat Pengaduan", desc: "Isi formulir pengaduan dengan judul, isi, dan kategori yang sesuai." },
+                        { step: "2", title: "Diproses Admin", desc: "Admin sekolah akan meninjau dan memproses pengaduanmu." },
+                        { step: "3", title: "Selesai", desc: "Kamu akan mendapat balasan dan status pengaduan berubah menjadi selesai." },
+                    ].map((item) => (
+                        <div key={item.step} className="bg-white rounded-2xl p-6 shadow-md text-center">
+                            <div className="w-12 h-12 bg-blue-600 text-white rounded-full flex items-center justify-center text-xl font-bold mx-auto mb-4">
+                                {item.step}
+                            </div>
+                            <h3 className="font-bold text-lg mb-2">{item.title}</h3>
+                            <p className="text-gray-600 text-sm">{item.desc}</p>
+                        </div>
+                    ))}
+                </div>
+            </div>
+        </div>
+        <div className="py-24 bg-gradient-to-br from-yellow-300 to-blue-600">
             <div className="max-w-md mx-auto flex flex-col gap-6 px-6">
                 <Link
                     href="/siswa/create_pengaduan"

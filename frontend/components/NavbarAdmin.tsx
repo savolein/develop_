@@ -15,24 +15,27 @@ export default function NavbarAdmin(){
     }
     
     return(
-        <div className="bg-[#1B211A] text-white px-6 py-5 flex items-center justify-between">
-            <Link href={"/admin/dashboard"} className="font-semibold text-xl">
-                Admin 
+        <div className="absolute fixed bg-black top-0 left-0 right-0 px-6 py-5 flex items-center justify-between z-10">
+            <Link href={"/siswa/dashboard"} className="font-semibold text-[32px] text-white">
+                ADMIN
             </Link>
-            <div className="flex gap-6 items-center">
-                <Link href={"/admin/data_table"} className="bg-[#E2E8CE] px-3 py-2 rounded-lg text-black hover:bg-[#E2E8CE]/60 transition-all font-semibold">
+            <div className="flex gap-6 items-center bg-white/30 px-[12px] rounded-[30px] py-2">
+                <Link href={"/admin/dashboard"} className="hover:bg-white font-bold hover:text-black text-white bg-black/50 px-[32px] py-[14px] rounded-[30px] transition-all duration-300">
+                    Home
+                </Link>
+                <Link href={"/admin/data_table"} className="hover:bg-white font-bold hover:text-black text-white bg-black/50 px-[32px] py-[14px] rounded-[30px] transition-all duration-300">
                     Data Pengaduan
                 </Link>
-                <Link href={"/admin/data_siswa"} className="bg-[#E2E8CE] px-3 py-2 rounded-lg text-black hover:bg-[#E2E8CE]/60 transition-all font-semibold">
+                <Link href={"/admin/data_siswa"} className="hover:bg-white font-bold hover:text-black text-white bg-black/50 px-[32px] py-[14px] rounded-[30px] transition-all duration-300">
                     Data Siswa
                 </Link>
-                <button 
-                    className="bg-red-500 hover:bg-red-600 text-white px-4 py-1 rounded-lg cursor-pointer transition"
+            </div>
+            <button 
+                    className="bg-[#ED3F27] hover:bg-red-800 text-white px-4 py-1 cursor-pointer transition font-semibold hover:text-black px-[32px] py-[14px] rounded-[30px] transition-all duration-300"
                     onClick={logout}
                 >
                     Logout
                 </button>
-            </div>
         </div>
     )
 }

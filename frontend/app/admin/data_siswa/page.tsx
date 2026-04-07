@@ -94,7 +94,7 @@ export default function dataSiswa(){
     return(
         <>
         <NavbarAdmin/>
-        <div className="flex flex-col p-[20px] gap-[10px]">
+        <div className="flex flex-col p-[20px] gap-[10px] mt-[110px]">
             <h1 className="font-bold text-[24px]">
                 Data Siswa
             </h1>
@@ -138,7 +138,7 @@ export default function dataSiswa(){
                                 />
                             </div>
                             <button 
-                                className="w-[120px] text-white py-[4px] bg-[#FF7A30] rounded-[8px] cursor-pointer"
+                                className="w-[120px] py-[4px] bg-yellow-400 rounded-[8px] font-semibold cursor-pointer"
                                 onClick={submitSiswa}
                             >
                                 Submit

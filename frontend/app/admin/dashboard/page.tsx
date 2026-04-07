@@ -32,8 +32,7 @@ export default function DashboardAdmin(){
     })
     return(
         <>
-        <NavbarAdmin/>
-        <div className="flex flex-col gap-[10px] mx-[20px] mt-[10px]">
+        <div className="flex flex-col gap-[10px] mx-[20px] mt-[140px]">
             <div className="flex flex-col">
                 <label className="font-bold text-[25px]">
                     Data Pengaduan

@@ -63,7 +63,7 @@ export default function dataTable(){
     return(
         <>
         <NavbarAdmin/>
-        <div className="flex flex-col p-[20px] gap-[10px]">
+        <div className="flex flex-col p-[20px] gap-[10px] mt-[110px]">
             <div className="flex flex-col gap-3">
                 <h1 className="font-bold text-[24px]">
                     Data Pengaduan

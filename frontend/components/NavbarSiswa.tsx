@@ -15,24 +15,27 @@ export default function NavbarSiswa(){
     }
     
     return(
-        <div className="bg-[#FEB21A] text-white px-6 py-5 flex items-center justify-between ">
-            <Link href={"/siswa/dashboard"} className="font-semibold text-xl">
+        <div className="absolute fixed top-0 left-0 right-0 px-6 py-5 flex items-center justify-between z-10">
+            <Link href={"/siswa/dashboard"} className="font-semibold text-[32px]">
                 HARAP LAPOR!
             </Link>
-            <div className="flex gap-6 items-center">
-                <Link href={"/siswa/create_pengaduan"} className="hover:text-blue-200 font-bold bg-[#004182] px-3 py-2 rounded-lg">
+            <div className="flex gap-6 items-center bg-black/30 px-[12px] rounded-[30px] py-2">
+                <Link href={"/siswa/dashboard"} className="hover:bg-white font-bold hover:text-black text-white bg-black/50 px-[32px] py-[14px] rounded-[30px] transition-all duration-300">
+                    Home
+                </Link>
+                <Link href={"/siswa/create_pengaduan"} className="hover:bg-white font-bold hover:text-black text-white bg-black/50 px-[32px] py-[14px] rounded-[30px] transition-all duration-300">
                     Buat Pengaduan
                 </Link>
-                <Link href={"/siswa/history"} className="hover:text-blue-200 font-bold bg-[#004182] px-3 py-2 rounded-lg">
+                <Link href={"/siswa/history"} className="hover:bg-white font-bold hover:text-black text-white bg-black/50 px-[32px] py-[14px] rounded-[30px] transition-all duration-300">
                     History
                 </Link>
-                <button 
-                    className="bg-[#ED3F27] hover:bg-red-600 text-white px-4 py-1 rounded-lg cursor-pointer transition font-semibold"
+            </div>
+            <button 
+                    className="bg-[#ED3F27] hover:bg-red-800 text-white px-4 py-1 cursor-pointer transition font-semibold hover:text-black px-[32px] py-[14px] rounded-[30px] transition-all duration-300"
                     onClick={logout}
                 >
                     Logout
                 </button>
-            </div>
         </div>
     )
 }

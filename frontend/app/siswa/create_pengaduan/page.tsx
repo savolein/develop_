@@ -11,6 +11,7 @@ export default function CreatePengaduan(){
     const [isi, setIsi] = useState("")
     const [kategoriId, setKategoriId] = useState("")
     const [loading, setLoading] = useState(false)
+    const [image, setImage] = useState<File | null>(null)
 
     useEffect(() => {
         const fetchKategori = async () => {
@@ -56,7 +57,7 @@ export default function CreatePengaduan(){
     return(
         <>
         <NavbarSiswa/>
-        <div className="flex flex-col w-full max-w-[650px] mx-auto bg-[#FB773C] mt-[140px] py-[10px] px-[24px] rounded-[10px] gap-[4px] shadow-xl">
+        <div className="flex flex-col w-full max-w-[650px] mx-auto border-3 mt-[140px] py-[10px] px-[24px] rounded-[10px] gap-[4px] shadow-xl">
             <h1 className="text-center text-[24px] font-bold">
                 Form Pengaduan
             </h1>
@@ -64,7 +65,7 @@ export default function CreatePengaduan(){
                 <label className="font-semibold">Judul</label>
                 <input 
                     type="text" 
-                    className="w-full border-2 border-white rounded h-[40px]"
+                    className="w-full border-2 rounded h-[40px]"
                     value={judul}
                     onChange={(e) => setJudul(e.target.value)}
                 />
@@ -73,7 +74,7 @@ export default function CreatePengaduan(){
                     Kategori
                 </label>
                 <select
-                    className="border-2 border-white p-2 w-full rounded"
+                    className="border-2 p-2 w-full rounded"
                     value={kategoriId}
                     onChange={(e) => setKategoriId(e.target.value)}
                 >
@@ -89,21 +90,21 @@ export default function CreatePengaduan(){
                     Deskripsi
                 </label>
                 <textarea
-                    className="w-full border-2 border-white rounded h-[100px]"
+                    className="w-full border-2 rounded h-[100px]"
                     value={isi}
                     onChange={(e) => setIsi(e.target.value)}
                 />
 
                 <div className="flex gap-[10px]">
                     <button 
-                        className="bg-[#3D45AA] text-white w-[120px] py-[4px] rounded-[8px] cursor-pointer disabled:opacity-50 font-bold"
+                        className="bg-[#3D45AA] text-white w-[120px] py-[8px] rounded-[8px] cursor-pointer disabled:opacity-50 font-bold"
                         onClick={handleSubmit}
                         disabled={loading}
                     >
                         {loading ? "Mengirim..." : "Submit"}
                     </button>
                     <Link 
-                        className="bg-[#FFF19B] text-black w-[60px] py-[4px] rounded-[8px] px-[14px] font-bold"
+                        className="flex justify-items-center bg-[#FFF19B] text-black w-[60px] py-[8px] rounded-[8px] px-[12px] font-bold"
                         href={"/siswa/dashboard"}
                     >
                         Back

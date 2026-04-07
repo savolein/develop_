@@ -22,7 +22,7 @@ export default function RegisterPage(){
     }
     
     return(
-        <div className="flex flex-col w-full max-w-[450px] mx-auto mt-[200px] bg-[#450693] gap-[14px] rounded-[10px] py-[16px] px-[28px]">
+        <div className="flex flex-col w-full max-w-[450px] h-[415px] mx-auto my-[200px] px-[40px] py-[43px] bg-gradient-to-br from-blue-600 to-yellow-300 gap-[14px] rounded-[10px]">
             <h1 className="text-center text-[24px] font-bold text-white">
                 Register
             </h1>
@@ -67,7 +67,7 @@ export default function RegisterPage(){
                 <p className="text-center text-sm text-white">Lupa kalau sudah punya akun? {""}
                     <Link 
                         href={"/login"}
-                        className="text-green-500"
+                        className="text-blue-500"
                     >
                         Klik disini!
                     </Link>
