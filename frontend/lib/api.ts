@@ -33,7 +33,7 @@ export const kategoriAPI = {
         return fetchAPI(`/api/kategoris`)
     }
 }
-export const aspirasiAPI = {
+export const pengaduanAPI = {
     getBySiswa(siswaId: number){
         return fetchAPI(`/api/aspirasis?filters[siswa][id][$eq]=${siswaId}&populate=kategoris`)
     },
@@ -41,6 +41,7 @@ export const aspirasiAPI = {
         judul: string,
         isi: string,
         kategoris: number[]
+        image?: number[]
     }){
         return fetchAPI(`/api/aspirasis/${documentId}`, {
             method: "PUT",
@@ -51,7 +52,8 @@ export const aspirasiAPI = {
         judul: string,
         isi: string,
         siswa: number,
-        kategoris: number[]
+        kategoris: number[],
+        image?: number[]          
     }){
         return fetchAPI(`/api/aspirasis`, {
             method: "POST",
@@ -61,6 +63,7 @@ export const aspirasiAPI = {
                     isi: data.isi,
                     siswa: data.siswa,
                     kategoris: data.kategoris,
+                    image: data.image ?? [],   
                     statuss: "Terkirim",
                     tanggal: new Date().toISOString().split("T")[0]
                 }
@@ -73,14 +76,14 @@ export const UserAPI = {
         return fetchAPI("/api/users/me")
     },
 }
-export const aspirasiSiswaAPI = {
+export const pengaduanSiswaAPI = {
     getByUser(userId: number) {
         return fetchAPI(
             `/api/aspirasis?filters[siswa][user][id][$eq]=${userId}&populate=*`
         )
     },
 }
-export const aspirasiTableAPI = {
+export const pengaduanTableAPI = {
     getAll(){
         return fetchAPI('/api/aspirasis?populate=*')
     },
@@ -125,7 +128,7 @@ export const siswaTableAPI = {
         })
     },
 }
-export const paginationAspirasi = {
+export const paginationPengaduan = {
     getAll(){
         return fetchAPI(`/api/aspirasis?pagination[pageSize]=1000`)
     }
@@ -154,5 +157,26 @@ export const DeleteadminSiswaAPI = {
         await fetchAPI(`/api/users/${siswa.userId}`, {
             method: "DELETE"
         })
+    }
+}
+
+export const uploadAPI = {
+    async uploadImage(file: File): Promise<number> {
+        const token = localStorage.getItem("token")
+        const formData = new FormData()
+        formData.append("files", file)
+        formData.append("folder", "images")
+
+        const res = await fetch(API_URL + "/api/upload", {
+            method: "POST",
+            headers: {
+                ...(token ? { Authorization: `Bearer ${token}` } : {})
+            },
+            body: formData
+        })
+
+        if (!res.ok) throw new Error("Upload gagal")
+        const data = await res.json()
+        return data[0].id
     }
 }

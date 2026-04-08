@@ -2,157 +2,105 @@
 
 import { useState, useEffect } from "react"
 import NavbarAdmin from "@/components/NavbarAdmin"
-import { aspirasiTableAPI } from "@/lib/api"
+import { pengaduanTableAPI } from "@/lib/api"
+import { PengaduanRow } from "@/components/admin/PengaduanRow"
 import Link from "next/link"
 
-interface Aspirasi {
-    id: number
-    documentId: string
-    nis: string
-    judul: string
-    isi: string
-    tanggal: string
-    statuss: string
-    reply: string | null
-    siswa? :{
-        nis?: string
-    }
-    kategori?: {
-        nama?: string
-    }
-}
-
-export default function dataTable(){
-    const [aspirasi, setAspirasi] = useState<Aspirasi[]>([])
+export default function DataTable() {
+    const [pengaduan, setPengaduan] = useState<any[]>([])
+    const [loading, setLoading] = useState(true)
 
     const fetchData = async () => {
-        const res = await aspirasiTableAPI.getAll()
-        setAspirasi(res.data)
-    }
-
-    const updateData = async (
-        documentId: string,
-        field: string,
-        value: string
-    ) => {
-        await aspirasiTableAPI.update(documentId, {[field]: value})
-        fetchData()
+        try {
+            const res = await pengaduanTableAPI.getAll()
+            setPengaduan(res.data || [])
+        } catch (error) {
+            console.error(error)
+        } finally {
+            setLoading(false)
+        }
     }
 
     useEffect(() => {
         fetchData()
     }, [])
 
-    const deleteData = async (
-        documentId: string
-    ) => {
-        if (!confirm("Yakin ingin menghapus ini?")) {
-            return
+    const updateData = async (documentId: string, field: string, value: string) => {
+        try {
+            await pengaduanTableAPI.update(documentId, { [field]: value })
+            fetchData()
+        } catch (error) {
+            alert("Gagal update data")
         }
-
-        await aspirasiTableAPI.delete(documentId)
-        fetchData()
     }
 
-    const progressMap: any = {
+    const deleteData = async (documentId: string) => {
+        if (!confirm("Yakin ingin menghapus ini?")) return
+        try {
+            await pengaduanTableAPI.delete(documentId)
+            setPengaduan(prev => prev.filter(item => item.documentId !== documentId))
+        } catch (error) {
+            alert("Gagal menghapus")
+        }
+    }
+
+    const progressMap: Record<string, number> = {
         Terkirim: 33,
         Diproses: 66,
         Selesai: 100,
     }
 
-    return(
-        <>
-        <NavbarAdmin/>
-        <div className="flex flex-col p-[20px] gap-[10px] mt-[110px]">
-            <div className="flex flex-col gap-3">
-                <h1 className="font-bold text-[24px]">
-                    Data Pengaduan
-                </h1>
-                <Link 
-                    className="bg-[#1D546D] text-white w-[80px] py-[8px] mb-2 rounded-[8px] px-[22px] font-bold hover:bg-[#1D546D]/70 transition duration-300 hover:text-black"
-                    href={"/admin/dashboard"}
-                >
-                    Back
-                </Link>
-            </div>
-            <div className="">
-                <table className="w-full">
-                    <thead>
-                        <tr className="">
-                            <th className="border py-1">ID</th>
-                            <th className="border py-1">NIS</th>
-                            <th className="border py-1">Judul</th>
-                            <th className="border py-1">Isi</th>
-                            <th className="border py-1">Tanggal</th>
-                            <th className="border py-1">Status</th>
-                            <th className="border py-1">Progress</th>
-                            <th className="border py-1">Reply</th>
-                            <th className="border py-1">Act</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {aspirasi.map((a) => (
-                            <tr key={a.id} className="">
-                                <td className="border p-2">{a.id}</td>
-                                <td className="border p-2">{a.siswa?.nis}</td>
-                                <td className="border p-2">{a.judul}</td>
-                                <td className="border p-2">{a.isi}</td>
-                                <td className="border p-2">{a.tanggal}</td>
-                                <td className="border p-2">
-                                    <select
-                                        value={a.statuss}
-                                        onChange={(e) =>
-                                            updateData(a.documentId, "statuss", e.target.value)
-                                        }
-                                        className="border p-1 rounded"
-                                    >
-                                        <option value="Terkirim">Terkirim</option>
-                                        <option value="Diproses">Diproses</option>
-                                        <option value="Selesai">Selesai</option>
-                                    </select>
-                                </td>
-                                <td className="border p-2 w-[180px]">
-                                    <div className="w-full bg-gray-200 rounded h-2">
-                                        <div 
-                                            className={`h-2 rounded transition-all duration-300
-                                                ${a.statuss === "Terkirim" && "bg-gray-500"}
-                                                ${a.statuss === "Diproses" && "bg-yellow-500"}
-                                                ${a.statuss === "Selesai" && "bg-green-500"}
-                                            `}
-                                            style={{width: `${progressMap[a.statuss]}%`}}
-                                        >
-                                        </div>
-                                        <p className="test-xs text-center">
-                                            {progressMap[a.statuss]}%
-                                        </p>
-                                    </div>
-                                </td>
-                                <td className="border p-2">
-                                    <input
-                                        defaultValue={a.reply ?? ""}
-                                        onBlur={(e) =>
-                                            updateData(a.documentId, "reply", e.target.value)
-                                        }
-                                        className="border p-1 w-full rounded"
+    return (
+        <div className="min-h-screen bg-gray-50 pb-10">
+            <div className="w-[1200px] mx-auto px-4 pt-32">
+                <div className="flex flex-row items-center justify-between mb-8 gap-4">
+                    <div>
+                        <h1 className="text-2xl font-bold text-gray-800">Data Pengaduan</h1>
+                        <p className="text-sm text-gray-500">Kelola pengaduan siswa secara efisien.</p>
+                    </div>
+                    <Link 
+                        href="/admin/dashboard"
+                        className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all shadow-sm shrink-0"
+                    >
+                        Kembali ke Dashboard
+                    </Link>
+                </div>
+
+                <div className="bg-white shadow-sm border border-gray-200 rounded-xl overflow-hidden">
+                    <div className="overflow-x-auto">
+                        <table className="w-full text-left">
+                            <thead className="bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-500 uppercase tracking-wider">
+                                <tr>
+                                    <th className="px-4 py-4 text-center w-16">ID</th>
+                                    <th className="px-4 py-4 w-32">NIS</th>
+                                    <th className="px-4 py-4 w-64">Laporan</th>
+                                    <th className="px-4 py-4 w-32">Tanggal</th>
+                                    <th className="px-4 py-4 w-32">Status</th>
+                                    <th className="px-4 py-4 w-40">Progress</th>
+                                    <th className="px-4 py-4">Tanggapan</th>
+                                    <th className="px-4 py-4 text-center w-24">Aksi</th>
+                                </tr>
+                            </thead>
+                            <tbody className="divide-y divide-gray-200">
+                                {loading ? (
+                                    <tr><td colSpan={8} className="text-center py-10 text-gray-400">Memuat data...</td></tr>
+                                ) : pengaduan.map((item) => (
+                                    <PengaduanRow 
+                                        key={item.id} 
+                                        data={item} 
+                                        onUpdate={updateData} 
+                                        onDelete={deleteData}
+                                        progress={progressMap[item.statuss] || 0}
                                     />
-                                </td>
-                                <td className="border p-2 text-center">
-                                    <button
-                                        onClick={() => deleteData(a.documentId)}
-                                        className="bg-red-500 px-3 py-1 rounded text-white hover:bg-red-600"
-                                    >
-                                        Hapus
-                                    </button>
-                                </td>
-                            </tr>
-                        ))}
-                        <tr>
-                            <td></td>
-                        </tr>
-                    </tbody>
-                </table>
+                                ))}
+                            </tbody>
+                        </table>
+                    </div>
+                    {!loading && pengaduan.length === 0 && (
+                        <div className="p-10 text-center text-gray-500 italic">Belum ada data pengaduan.</div>
+                    )}
+                </div>
             </div>
         </div>
-        </>
     )
 }

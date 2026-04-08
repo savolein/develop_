@@ -1,95 +1,99 @@
 "use client"
+import { useState, useEffect, useCallback } from "react"
+import { paginationPengaduan, paginationSiswa } from "@/lib/api"
+import { StatCard } from "@/components/StatCard"
 
-import { useState, useEffect } from "react"
-import { paginationAspirasi, paginationSiswa } from "@/lib/api"
-import NavbarAdmin from "@/components/NavbarAdmin"
-import Link from "next/link"
+export default function DashboardAdmin() {
+    const [stats, setStats] = useState({
+        terkirim: 0,
+        diproses: 0,
+        selesai: 0,
+        siswa: 0
+    })
+    const [loading, setLoading] = useState(true)
 
-export default function DashboardAdmin(){
-    const [terkirim, setTerkirim] = useState(0)
-    const [diproses, setDiproses] = useState(0)
-    const [selesai, setSelesai] = useState(0)
-    const [siswa, setSiswa] = useState(0)
+    const fetchAllData = useCallback(async () => {
+        try {
+            setLoading(true)
+            const [resPengaduan, resSiswa] = await Promise.all([
+                paginationPengaduan.getAll(),
+                paginationSiswa.getAll()
+            ])
+
+            const pengaduanData = resPengaduan.data || []
+            const siswaData = resSiswa.data || []
+
+            const counts = pengaduanData.reduce((acc: any, item: any) => {
+                if (item.statuss === "Diproses") acc.diproses++
+                if (item.statuss === "Selesai") acc.selesai++
+                return acc;
+            }, { diproses: 0, selesai: 0 })
+
+            setStats({
+                terkirim: pengaduanData.length,
+                diproses: counts.diproses,
+                selesai: counts.selesai,
+                siswa: siswaData.length
+            })
+        } catch (error) {
+            console.error("Gagal mengambil data:", error)
+        } finally {
+            setLoading(false)
+        }
+    }, [])
 
     useEffect(() => {
-        const fetchdata = async () => {    
-            const res = await paginationAspirasi.getAll()
-            const aspirasi = res.data
+        fetchAllData()
+    }, [fetchAllData])
 
-            setTerkirim(aspirasi.length)
-            setDiproses(aspirasi.filter((a: any) => a.statuss === "Diproses").length)
-            setSelesai(aspirasi.filter((a: any) => a.statuss === "Selesai").length)
-        }
-        
-        const fetchsiswa = async () => {
-            const res = await paginationSiswa.getAll()
-            const siswa = res.data
-
-            setSiswa(siswa.length)
-        }
-        fetchdata()
-        fetchsiswa()
-    })
-    return(
-        <>
-        <div className="flex flex-col gap-[10px] mx-[20px] mt-[140px]">
-            <div className="flex flex-col">
-                <label className="font-bold text-[25px]">
-                    Data Pengaduan
-                </label>
-                <div className="flex gap-[20px] ">
-                    <Link 
-                        href={"/admin/data_table"} 
-                        className="w-[350px] bg-red-500 px-[10px] py-[10px] rounded-[8px] shadow-lg shadow-red-200 hover:bg-red-700 transition-all duration-300"
-                    >
-                        <h1 className="font-bold text-[24px] text-white">
-                            Total Pengaduan
-                        </h1>
-                        <h2 className="font-bold text-[36px]">
-                            {terkirim}
-                        </h2>
-                    </Link>
-                    <Link 
-                        href={"/admin/data_table"} 
-                        className="w-[350px] bg-yellow-500 px-[10px] py-[10px] rounded-[8px] shadow-lg shadow-yellow-200 hover:bg-yellow-700 transition-all duration-300"
-                    >
-                        <h1 className="font-bold text-[24px] text-white">
-                            Diproses
-                        </h1>
-                        <h2 className="font-bold text-[36px]">
-                            {diproses}
-                        </h2>
-                    </Link>
-                    <Link 
-                        href={"/admin/data_table"} 
-                        className="w-[350px] bg-green-500 px-[10px] py-[10px] rounded-[8px] shadow-lg shadow-green-200 hover:bg-green-700 transition-all duration-300"
-                    >
-                        <h1 className="font-bold text-[24px] text-white">
-                            Selesai
-                        </h1>
-                        <h2 className="font-bold text-[36px]">
-                            {selesai}
-                        </h2>
-                    </Link>
+    return (
+        <div className="min-h-screen bg-gray-50 p-10 pt-32">
+            <div className="max-w-7xl mx-auto space-y-12">
+                
+                <div>
+                    <div className="mb-6">
+                        <h1 className="text-2xl font-bold text-gray-800">Data Pengaduan</h1>
+                        <p className="text-gray-500 text-sm">Ringkasan status laporan siswa.</p>
+                    </div>
+                    <div className="grid grid-cols-3 gap-6">
+                        <StatCard 
+                            title="Total Pengaduan" 
+                            value={stats.terkirim} 
+                            href="/admin/data_table" 
+                            colorClass="bg-blue-500" 
+                            loading={loading}
+                        />
+                        <StatCard 
+                            title="Sedang Diproses" 
+                            value={stats.diproses} 
+                            href="/admin/data_table" 
+                            colorClass="bg-amber-500" 
+                            loading={loading}
+                        />
+                        <StatCard 
+                            title="Selesai" 
+                            value={stats.selesai} 
+                            href="/admin/data_table" 
+                            colorClass="bg-emerald-500" 
+                            loading={loading}
+                        />
+                    </div>
+                </div>
+                <div>
+                    <div className="mb-6">
+                        <h1 className="text-2xl font-bold text-gray-800">Data Siswa</h1>
+                    </div>
+                    <div className="grid grid-cols-3 gap-6">
+                        <StatCard 
+                            title="Total Siswa Terdaftar" 
+                            value={stats.siswa} 
+                            href="/admin/data_siswa" 
+                            colorClass="bg-indigo-500" 
+                            loading={loading}
+                        />
+                    </div>
                 </div>
             </div>
-            <div className="flex flex-col">
-                <label className="font-bold text-[25px]">
-                    Data Siswa
-                </label>
-                <Link 
-                    href={"/admin/data_siswa"} 
-                    className="w-[350px] bg-blue-500 px-[10px] py-[10px] rounded-[8px] shadow-lg shadow-blue-200 hover:bg-blue-700 transition-all duration-300"
-                >
-                    <h1 className="font-bold text-[24px] text-white">
-                        Total Siswa
-                    </h1>
-                    <h2 className="font-bold text-[36px]">
-                        {siswa}
-                    </h2>
-                </Link>
-            </div>
         </div>
-        </>
     )
 }

@@ -433,7 +433,7 @@ export interface AdminUser extends Struct.CollectionTypeSchema {
 export interface ApiAspirasiAspirasi extends Struct.CollectionTypeSchema {
   collectionName: 'aspirasis';
   info: {
-    displayName: 'aspirasi';
+    displayName: 'pengaduan';
     pluralName: 'aspirasis';
     singularName: 'aspirasi';
   };
@@ -444,6 +444,10 @@ export interface ApiAspirasiAspirasi extends Struct.CollectionTypeSchema {
     createdAt: Schema.Attribute.DateTime;
     createdBy: Schema.Attribute.Relation<'oneToOne', 'admin::user'> &
       Schema.Attribute.Private;
+    image: Schema.Attribute.Media<
+      'images' | 'files' | 'videos' | 'audios',
+      true
+    >;
     isi: Schema.Attribute.Text;
     judul: Schema.Attribute.String;
     kategoris: Schema.Attribute.Relation<
