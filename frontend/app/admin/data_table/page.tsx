@@ -52,13 +52,13 @@ export default function DataTable() {
 
     return (
         <div className="min-h-screen bg-gray-50 pb-10">
-            <div className="w-[1200px] mx-auto px-4 pt-32">
+            <div className="w-[1400px] mx-auto px-4 pt-32">
                 <div className="flex flex-row items-center justify-between mb-8 gap-4">
                     <div>
                         <h1 className="text-2xl font-bold text-gray-800">Data Pengaduan</h1>
-                        <p className="text-sm text-gray-500">Kelola pengaduan siswa secara efisien.</p>
+                        <p className="text-sm text-gray-500">Kelola pengaduan siswa secara efisien</p>
                     </div>
-                    <Link 
+                    <Link
                         href="/admin/dashboard"
                         className="px-4 py-2 text-sm font-medium text-gray-600 bg-white border border-gray-300 rounded-lg hover:bg-gray-50 transition-all shadow-sm shrink-0"
                     >
@@ -68,36 +68,64 @@ export default function DataTable() {
 
                 <div className="bg-white shadow-sm border border-gray-200 rounded-xl overflow-hidden">
                     <div className="overflow-x-auto">
-                        <table className="w-full text-left">
+                        <table className="w-full text-left border-collapse">
                             <thead className="bg-gray-50 border-b border-gray-200 text-xs font-bold text-gray-500 uppercase tracking-wider">
                                 <tr>
-                                    <th className="px-4 py-4 text-center w-16">ID</th>
-                                    <th className="px-4 py-4 w-32">NIS</th>
-                                    <th className="px-4 py-4 w-64">Laporan</th>
-                                    <th className="px-4 py-4 w-32">Tanggal</th>
-                                    <th className="px-4 py-4 w-32">Status</th>
-                                    <th className="px-4 py-4 w-40">Progress</th>
-                                    <th className="px-4 py-4">Tanggapan</th>
-                                    <th className="px-4 py-4 text-center w-24">Aksi</th>
+                                    <th className="px-4 py-4 text-center w-16">
+                                        ID
+                                    </th>
+                                    <th className="px-4 py-4 w-28">
+                                        NIS
+                                    </th>
+                                    <th className="px-4 py-4 w-56">
+                                        Laporan
+                                    </th>
+                                    <th className="px-4 py-4 w-28">
+                                        Tanggal
+                                    </th>
+                                    <th className="px-4 py-4 w-24">
+                                        Foto Siswa
+                                    </th>
+                                    <th className="px-4 py-4 w-32">
+                                        Status
+                                    </th>
+                                    <th className="px-4 py-4 w-36">
+                                        Progress
+                                    </th>
+                                    <th className="px-4 py-4">
+                                        Tanggapan
+                                    </th>
+                                    <th className="px-4 py-4 text-center w-20">
+                                        Aksi
+                                    </th>
                                 </tr>
                             </thead>
                             <tbody className="divide-y divide-gray-200">
                                 {loading ? (
-                                    <tr><td colSpan={8} className="text-center py-10 text-gray-400">Memuat data...</td></tr>
-                                ) : pengaduan.map((item) => (
-                                    <PengaduanRow 
-                                        key={item.id} 
-                                        data={item} 
-                                        onUpdate={updateData} 
-                                        onDelete={deleteData}
-                                        progress={progressMap[item.statuss] || 0}
-                                    />
-                                ))}
+                                    <tr>
+                                        <td colSpan={9} className="text-center py-10 text-gray-400">
+                                            Memuat data...
+                                        </td>
+                                    </tr>
+                                ) : (
+                                    pengaduan.map((item) => (
+                                        <PengaduanRow
+                                            key={item.id}
+                                            data={item}
+                                            onUpdate={updateData}
+                                            onDelete={deleteData}
+                                            progress={progressMap[item.statuss] || 0}
+                                        />
+                                    ))
+                                )}
                             </tbody>
                         </table>
                     </div>
+                    
                     {!loading && pengaduan.length === 0 && (
-                        <div className="p-10 text-center text-gray-500 italic">Belum ada data pengaduan.</div>
+                        <div className="p-10 text-center text-gray-500 italic">
+                            Belum ada data pengaduan.
+                        </div>
                     )}
                 </div>
             </div>

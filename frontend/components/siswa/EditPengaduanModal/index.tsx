@@ -157,7 +157,7 @@ export default function EditPengaduanModal({ item, allKategoris, onClose, onSucc
                                         onClick={() => setImages({...images, newFile: null, newPreview: null})}
                                         className="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 text-[10px] flex items-center justify-center shadow-md"
                                     >
-                                        ✕
+                                        X
                                     </button>
                                 </div>
                             )}
